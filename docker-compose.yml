@@ -86,3 +86,15 @@ services:
         - panghostlin-pictures
         - panghostlin-keys
     command: ["./wait-for-it.sh panghostlin-postgre:5432 --strict --timeout=2 && ./panghostlin-proxy"]
+
+  #############################################################################
+  ## IMAGE FOR THE WEBAPP
+  #############################################################################
+  panghostlin-webapp:
+    container_name: panghostlin-webapp
+    build: ./src/Webapp
+    restart: always
+    depends_on:
+        - panghostlin-proxy
+    ports:
+        - "3000:3000"

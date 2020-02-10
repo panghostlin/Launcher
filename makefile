@@ -19,6 +19,7 @@ init:
 	@-git clone git@github.com:panghostlin/Members.git src/Members
 	@-git clone git@github.com:panghostlin/Keys.git src/Keys
 	@-git clone git@github.com:panghostlin/Proxy.git src/Proxy
+	@-git clone git@github.com:panghostlin/Webapp.git src/Webapp
 	@-go run install.go
 
 update:
@@ -26,6 +27,7 @@ update:
 	@-(cd src/Members && git pull)
 	@-(cd src/Keys && git pull)
 	@-(cd src/Proxy && git pull)
+	@-(cd src/Webapp && git pull)
 
 keys:
 	@-docker-compose stop panghostlin-keys
@@ -54,5 +56,6 @@ purge:
 	@-rm -rf src/Members
 	@-rm -rf src/Keys
 	@-rm -rf src/Proxy
+	@-rm -rf src/Webapp
 	@-rm -rf .data
 	# @-rm -rf .pictures
