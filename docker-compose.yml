@@ -66,7 +66,6 @@ services:
       - ./.environment:/env
     ports:
       - "8011:8011"
-      - "8090:8090"
     command: ["./wait-for-it.sh panghostlin-postgre:5432 --strict --timeout=2 && ./panghostlin-keys"]
 
   #############################################################################
@@ -80,7 +79,8 @@ services:
     volumes:
         - ./.environment:/env
     ports:
-      - "8099:80"
+      - "8000:8000"
+      - "8443:8443"
     depends_on:
         - panghostlin-members
         - panghostlin-pictures
