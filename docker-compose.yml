@@ -1,0 +1,88 @@
+version: '3.3'
+
+services:
+  #############################################################################
+  ## IMAGE FOR THE DATABASE
+  #############################################################################
+  panghostlin-postgre:
+    container_name: panghostlin-postgre
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRE_USERNAME}
+      POSTGRES_PASSWORD: ${POSTGRE_PWD}
+      POSTGRES_DB: ${POSTGRE_DB}
+    ports:
+      - "54320:5432"
+    volumes:
+      - ./.data:/var/lib/postgresql/data
+
+  #############################################################################
+  ## IMAGE FOR THE MEMBER MANAGEMENT GRPC MICROSERVICE
+  #############################################################################
+  panghostlin-members:
+    container_name: panghostlin-members
+    build: ./src/Members
+    restart: always
+    volumes:
+      - ./.environment:/env
+    depends_on:
+        - panghostlin-postgre
+        - panghostlin-keys
+    ports:
+        - "8010:8010"
+    env_file: .env
+    command: ["./wait-for-it.sh panghostlin-postgre:5432 --strict --timeout=2 && ./panghostlin-members"]
+
+  #############################################################################
+  ## IMAGE FOR THE PICTURES MANAGEMENT GRPC MICROSERVICE
+  #############################################################################
+  panghostlin-pictures:
+    container_name: panghostlin-pictures
+    build: ./src/Pictures
+    restart: always
+    env_file: .env
+    volumes:
+        - ./.pictures:/pictures
+        - ./.environment:/env
+    depends_on:
+        - panghostlin-postgre
+        - panghostlin-keys
+    ports:
+        - "8012:8012"
+    command: ["./wait-for-it.sh panghostlin-postgre:5432 --strict --timeout=2 && ./panghostlin-pictures"]
+
+  #############################################################################
+  ## IMAGE FOR THE KEYS MANAGEMENT GRPC MICROSERVICE
+  #############################################################################
+  panghostlin-keys:
+    container_name: panghostlin-keys
+    build: ./src/Keys
+    restart: always
+    env_file: .env
+    depends_on:
+      - panghostlin-postgre
+    volumes:
+      - ./.environment:/env
+    ports:
+      - "8011:8011"
+      - "8090:8090"
+    command: ["./wait-for-it.sh panghostlin-postgre:5432 --strict --timeout=2 && ./panghostlin-keys"]
+
+  #############################################################################
+  ## IMAGE FOR THE PROXY
+  #############################################################################
+  panghostlin-proxy:
+    container_name: panghostlin-proxy
+    build: ./src/Proxy
+    restart: always
+    env_file: .env
+    volumes:
+        - ./.environment:/env
+    ports:
+      - "8099:80"
+    depends_on:
+        - panghostlin-members
+        - panghostlin-pictures
+        - panghostlin-keys
+    command: ["./wait-for-it.sh panghostlin-postgre:5432 --strict --timeout=2 && ./panghostlin-proxy"]
