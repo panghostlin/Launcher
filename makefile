@@ -32,24 +32,31 @@ update:
 keys:
 	@-docker-compose stop panghostlin-keys
 	@-docker-compose build panghostlin-keys
-	@-docker-compose up -d panghostlin-keys
+	@-docker-compose up -d --remove-orphans panghostlin-keys
 members:
 	@-docker-compose stop panghostlin-members
 	@-docker-compose build panghostlin-members
-	@-docker-compose up -d panghostlin-members
+	@-docker-compose up -d --remove-orphans panghostlin-members
 proxy:
 	@-docker-compose stop panghostlin-proxy
 	@-docker-compose build panghostlin-proxy
-	@-docker-compose up -d panghostlin-proxy
+	@-docker-compose up -d --remove-orphans panghostlin-proxy
 pictures:
 	@-docker-compose stop panghostlin-pictures
+	@-docker-compose rm panghostlin-pictures
 	@-docker-compose build panghostlin-pictures
-	@-docker-compose up -d panghostlin-pictures
+	@-docker-compose up -d --remove-orphans panghostlin-pictures
+webapp:
+	@-docker-compose stop panghostlin-webapp
+	@-docker-compose build --no-cache panghostlin-webapp
+	@-docker-compose up -d --remove-orphans --force-recreate panghostlin-webapp
 
 re:
-	docker-compose up -d --build
-up:
-	docker-compose up --build
+	docker-compose up -d --build --remove-orphans
+down:
+	docker-compose down
+up: down
+	docker-compose up --build --remove-orphans
 
 purge:
 	@-rm -rf src/Pictures

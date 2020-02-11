@@ -94,7 +94,14 @@ services:
     container_name: panghostlin-webapp
     build: ./src/Webapp
     restart: always
+    environment:
+      BACKEND: ${DOMAIN}:8000
     depends_on:
         - panghostlin-proxy
+    volumes:
+      - ./src/Webapp:/home/app
+      - /home/app/.next
+      - /home/app/node_modules
     ports:
-        - "3000:3000"
+        - 80:3000
+        - 49153:49153
