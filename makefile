@@ -55,8 +55,9 @@ re:
 	docker-compose up -d --build --remove-orphans
 down:
 	docker-compose down
-up: down
+up:
 	docker-compose up --build --remove-orphans
+restart: down up
 
 purge:
 	@-rm -rf src/Pictures
