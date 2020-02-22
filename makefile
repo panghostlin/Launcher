@@ -8,16 +8,15 @@
 ## @Last modified time:		Sunday 05 January 2020 - 19:55:03
 ################################################################################
 
-.PHONY: members proxy pictures keys up proxy
+.PHONY: members proxy pictures up proxy
 
-all: keys members proxy pictures
+all: members proxy pictures
 
 init:
 	@-echo "Cloning dependencies in ./src"
 	@-mkdir src/
 	@-git clone git@github.com:panghostlin/Pictures.git src/Pictures
 	@-git clone git@github.com:panghostlin/Members.git src/Members
-	@-git clone git@github.com:panghostlin/Keys.git src/Keys
 	@-git clone git@github.com:panghostlin/Proxy.git src/Proxy
 	@-git clone git@github.com:panghostlin/Webapp.git src/Webapp
 	@-go run install.go
@@ -25,14 +24,9 @@ init:
 update:
 	@-(cd src/Pictures && git pull)
 	@-(cd src/Members && git pull)
-	@-(cd src/Keys && git pull)
 	@-(cd src/Proxy && git pull)
 	@-(cd src/Webapp && git pull)
 
-keys:
-	@-docker-compose stop panghostlin-keys
-	@-docker-compose build panghostlin-keys
-	@-docker-compose up -d --remove-orphans panghostlin-keys
 members:
 	@-docker-compose stop panghostlin-members
 	@-docker-compose build panghostlin-members
@@ -62,7 +56,6 @@ restart: down up
 purge:
 	@-rm -rf src/Pictures
 	@-rm -rf src/Members
-	@-rm -rf src/Keys
 	@-rm -rf src/Proxy
 	@-rm -rf src/Webapp
 	@-rm -rf .data
