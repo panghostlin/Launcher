@@ -1,12 +1,14 @@
 #!/bin/bash
 # https://github.com/wmnnd/nginx-certbot
 
+export $(cat .env | xargs)
+
 if ! [ -x "$(command -v docker-compose)" ]; then
   echo 'Error: docker-compose is not installed.' >&2
   exit 1
 fi
 
-domains=(panghostlin.com api.panghostlin.com)
+domains=(${DOMAIN} api.${DOMAIN})
 rsa_key_size=4096
 data_path="./.data/certbot"
 email="tbouder@pm.me" # Adding a valid address is strongly recommended

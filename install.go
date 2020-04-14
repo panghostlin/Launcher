@@ -5,7 +5,7 @@
 ** @Filename:				install.go
 **
 ** @Last modified by:		Tbouder
-** @Last modified time:		Thursday 13 February 2020 - 14:43:17
+** @Last modified time:		Tuesday 14 April 2020 - 20:02:57
 *******************************************************************************/
 
 package			main
@@ -85,6 +85,7 @@ func	main()	{
 	f.WriteString("JWT_ACCESS_TOKEN_KEY=" + generateNonce(64) + "\n")
 	f.WriteString("JWT_REFRESH_TOKEN_KEY=" + generateNonce(64) + "\n")
 	fmt.Println(`JWT :      [OK]`)
+	f.WriteString("IS_DEV=false\n")
 
 	fmt.Println(`-- DONE --`)
 }

@@ -20,6 +20,7 @@ init:
 	@-git clone git@github.com:panghostlin/Proxy.git src/Proxy
 	@-git clone git@github.com:panghostlin/Webapp.git src/Webapp
 	@-go run install.go
+	@-sh init-letsencrypt.sh
 
 update:
 	@-(cd src/Pictures && git pull)
