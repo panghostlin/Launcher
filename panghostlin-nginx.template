@@ -22,6 +22,8 @@ server {
 
     server_name ${DOMAIN};
 
+    client_max_body_size 20M;
+
     ssl_certificate /etc/letsencrypt/live/${DOMAIN}/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/${DOMAIN}/privkey.pem;
     include /etc/letsencrypt/options-ssl-nginx.conf;
@@ -69,6 +71,8 @@ server {
     listen 443 ssl;
     
     server_name api.${DOMAIN};
+
+    client_max_body_size 20M;
 
     ssl_certificate /etc/letsencrypt/live/${DOMAIN}/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/${DOMAIN}/privkey.pem;
