@@ -6,9 +6,9 @@ if ! [ -x "$(command -v docker-compose)" ]; then
   exit 1
 fi
 
-domains=(majorcalamity.com api.majorcalamity.com wss.majorcalamity.com)
+domains=(panghostlin.com api.panghostlin.com)
 rsa_key_size=4096
-data_path="./data/certbot"
+data_path="./.data/certbot"
 email="tbouder@pm.me" # Adding a valid address is strongly recommended
 staging=0 # Set to 1 if you're testing your setup to avoid hitting request limits
 
