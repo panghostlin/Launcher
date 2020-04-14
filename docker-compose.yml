@@ -8,8 +8,8 @@ services:
     container_name: panghostlin-postgre
     image: postgres
     restart: always
-    logging:
-      driver: none
+    # logging:
+      # driver: none
     environment:
       POSTGRES_USER: ${POSTGRE_USERNAME}
       POSTGRES_PASSWORD: ${POSTGRE_PWD}

@@ -8,7 +8,7 @@
 ## @Last modified time:		Sunday 05 January 2020 - 19:55:03
 ################################################################################
 
-.PHONY: members proxy pictures up proxy
+.PHONY: members proxy pictures up proxy silentUp
 
 all: members proxy pictures
 
@@ -46,11 +46,13 @@ webapp:
 	@-docker-compose up -d --remove-orphans --force-recreate panghostlin-webapp
 
 re:
-	docker-compose up -d --build --remove-orphans
+	docker-compose up -d --build --force-recreate --remove-orphans
 down:
 	docker-compose down
 up:
 	docker-compose up --build --remove-orphans
+silentUp:
+	docker-compose up --build --remove-orphans -d
 restart: down up
 
 purge:
